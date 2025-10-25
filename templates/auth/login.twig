@@ -1,44 +1,116 @@
 {% extends "base.twig" %}
 
+{% block title %}Login - TrackiT{% endblock %}
+
 {% block content %}
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
+<div class="relative min-h-screen flex items-center justify-center bg-blue-600 py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Decorative Circles -->
+    <div class="absolute top-20 right-[10%] w-64 h-64 rounded-full bg-white opacity-20"></div>
+    <div class="absolute bottom-40 left-[5%] w-48 h-48 rounded-full bg-blue-400 opacity-25"></div>
+
+    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-2xl relative z-10">
+        <!-- Back Link -->
+        <div class="absolute top-8 left-8">
+            <a href="/" class="text-blue-600 hover:text-blue-500 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m15 18-6-6 6-6" />
+                </svg>
+                Back
+            </a>
+        </div>
+
         <div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Sign in to your account
+                Welcome back
             </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Sign in to your TrackiT account
+            </p>
         </div>
-        <form class="mt-8 space-y-6" id="loginForm">
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="email" class="sr-only">Email address</label>
-                    <input id="email" name="email" type="email" required 
-                           class="block w-full px-4 py-2 mt-2 text-gray-900 bg-white border rounded-t-md border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 sm:text-sm" 
-                           placeholder="Email address">
+
+        <form id="loginForm" class="mt-8 space-y-6">
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label for="email" class="block text-sm font-medium text-gray-700">
+                        Email address
+                    </label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        required
+                        placeholder="demo@example.com"
+                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    >
+                    <p class="text-sm text-red-600" data-error="email"></p>
                 </div>
-                <div>
-                    <label for="password" class="sr-only">Password</label>
-                    <input id="password" name="password" type="password" required 
-                           class="block w-full px-4 py-2 text-gray-900 bg-white border rounded-b-md border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 sm:text-sm" 
-                           placeholder="Password">
+
+                <div class="space-y-2">
+                    <label for="password" class="block text-sm font-medium text-gray-700">
+                        Password
+                    </label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autocomplete="current-password"
+                        required
+                        placeholder="Enter your password"
+                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    >
+                    <p class="text-sm text-red-600" data-error="password"></p>
                 </div>
             </div>
 
-            <div class="text-sm text-red-600 hidden" id="errorMessage"></div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <input
+                        id="remember-me"
+                        name="remember-me"
+                        type="checkbox"
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
+                    >
+                    <label for="remember-me" class="text-sm text-gray-700 cursor-pointer">
+                        Remember me
+                    </label>
+                </div>
 
-            <div>
-                <button type="submit" 
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Sign in
-                </button>
+                <div class="text-sm">
+                    <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                        Forgot your password?
+                    </a>
+                </div>
             </div>
 
-            <div class="text-sm text-center">
-                <a href="/signup" class="font-medium text-indigo-600 hover:text-indigo-500">
-                    Don't have an account? Sign up
-                </a>
+            <button
+                type="submit"
+                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-700 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            >
+                Sign in
+            </button>
+
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    Don't have an account?
+                    <a href="/auth/signup" class="font-medium text-blue-600 hover:text-blue-500 ml-1">
+                        Sign up
+                    </a>
+                </p>
             </div>
         </form>
+    </div>
+
+    <!-- Wave Background -->
+    <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-0 rotate-180">
+        <svg data-name="Layer 1" 
+             xmlns="http://www.w3.org/2000/svg" 
+             viewBox="0 0 1200 120" 
+             preserveAspectRatio="none" 
+             class="relative block w-full h-[100px]">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                  class="fill-gray-50"></path>
+        </svg>
     </div>
 </div>
 {% endblock %}
@@ -48,31 +120,98 @@
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
-    const errorMessage = document.getElementById('errorMessage');
     
-    // Simple validation
-    if (!email || !password) {
-        errorMessage.textContent = 'Please fill in all fields';
-        errorMessage.classList.remove('hidden');
-        return;
+    // Clear previous error messages
+    const errorElements = document.querySelectorAll('[data-error]');
+    errorElements.forEach(el => el.textContent = '');
+    
+    let hasErrors = false;
+    
+    // Client-side validation
+    if (!email) {
+        document.querySelector('[data-error="email"]').textContent = 'Email is required';
+        hasErrors = true;
+    } else if (!validateEmail(email)) {
+        document.querySelector('[data-error="email"]').textContent = 'Please enter a valid email address';
+        hasErrors = true;
     }
 
-    // Simulate authentication
-    if (email === 'test@example.com' && password === 'password') {
-        // Store session token
-        localStorage.setItem('ticketapp_session', JSON.stringify({
-            token: 'dummy_token',
-            user: { email: email }
-        }));
-        
-        // Redirect to dashboard
-        window.location.href = '/dashboard';
-    } else {
-        errorMessage.textContent = 'Invalid email or password';
-        errorMessage.classList.remove('hidden');
+    if (!password) {
+        document.querySelector('[data-error="password"]').textContent = 'Password is required';
+        hasErrors = true;
+    } else if (!validatePassword(password)) {
+        document.querySelector('[data-error="password"]').textContent = 'Password must be at least 6 characters long';
+        hasErrors = true;
     }
+
+    if (hasErrors) {
+        return;
+    }
+    
+    // Check localStorage first
+    const storedSession = localStorage.getItem('ticketapp_session');
+    if (storedSession) {
+        try {
+            const session = JSON.parse(storedSession);
+            if (session.user && session.user.email === email) {
+                showToast('Already logged in, redirecting to dashboard');
+                window.location.href = '/dashboard';
+                return;
+            }
+        } catch (err) {
+            console.error('Error parsing stored session:', err);
+        }
+    }
+    
+    const formData = {
+        email: email,
+        password: password
+    };
+    
+    // Show loading state
+    const submitButton = document.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Signing in...';
+    
+    fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error('Invalid email or password');
+            }
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            localStorage.setItem('ticketapp_session', JSON.stringify(data));
+            showToast('Login successful! Redirecting...');
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 1000);
+        } else {
+            showToast(data.error || 'Login failed', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error during login:', error);
+        showToast(error.message || 'An error occurred while signing in', 'error');
+    })
+    .finally(() => {
+        // Reset button state
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+    });
 });
 </script>
 {% endblock %}

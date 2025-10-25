@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -72,9 +74,38 @@
     </main>
 
     <script>
+        function showToast(message, type = 'success') {
+            const backgroundColor = type === 'success' ? '#4CAF50' : '#F44336';
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor,
+                stopOnFocus: true,
+            }).showToast();
+        }
+
         function logout() {
-            localStorage.removeItem('ticketapp_session');
-            window.location.href = '/';
+            fetch('/auth/logout', {
+                method: 'POST',
+            })
+            .then(() => {
+                localStorage.removeItem('ticketapp_session');
+                showToast('Logged out successfully');
+                window.location.href = '/auth/login';
+            })
+            .catch(() => {
+                showToast('Failed to logout. Please try again.', 'error');
+            });
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 6;
         }
     </script>
     {% block scripts %}{% endblock %}

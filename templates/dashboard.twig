@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check authentication
     const session = localStorage.getItem('ticketapp_session');
     if (!session) {
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
         return;
     }
 
