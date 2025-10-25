@@ -1,0 +1,14 @@
+{
+  "name": "ticket-system-twig",
+  "version": "1.0.0",
+  "description": "Ticket Management System with Twig",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./public/css/input.css -o ./public/css/styles.css --watch",
+    "build": "npx tailwindcss -i ./public/css/input.css -o ./public/css/styles.css --minify"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5"
+  }
+}
