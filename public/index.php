@@ -108,8 +108,9 @@ $router->get('/tickets', function() use ($twig) {
 });
 
 $router->post('/auth/logout', function() {
-    Auth::logout();
-    echo json_encode(['success' => true]);
+    $response = Auth::logout();
+    header('Content-Type: application/json');
+    echo json_encode($response);
 });
 
 $router->run();

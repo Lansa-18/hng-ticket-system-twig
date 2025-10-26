@@ -86,17 +86,60 @@
             }).showToast();
         }
 
+        // Initialize user session
+        function initializeUserSession() {
+            const session = localStorage.getItem('ticketapp_session');
+            if (!session) {
+                window.location.href = '/auth/login';
+                return;
+            }
+
+            try {
+                const data = JSON.parse(session);
+                let userName;
+                if (data.data && data.data.user) {
+                    userName = data.data.user.name;
+                } else if (data.user) {
+                    userName = data.user.name;
+                }
+                
+                if (userName) {
+                    // Update all elements that should display the user name
+                    document.querySelectorAll('[data-user-name]').forEach(el => {
+                        el.textContent = userName;
+                    });
+                }
+            } catch (err) {
+                console.error('Error parsing session:', err);
+            }
+        }
+
+        // Logout functionality
         function logout() {
             fetch('/auth/logout', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
-            .then(() => {
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Clear all app-related data
+                    localStorage.removeItem('ticketapp_session');
+                    localStorage.removeItem('tickets');
+                    localStorage.removeItem('userData');
+                    showToast('Logged out successfully');
+                    window.location.href = data.redirect;
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+                // Fallback logout
                 localStorage.removeItem('ticketapp_session');
-                showToast('Logged out successfully');
+                localStorage.removeItem('tickets');
+                localStorage.removeItem('userData');
                 window.location.href = '/auth/login';
-            })
-            .catch(() => {
-                showToast('Failed to logout. Please try again.', 'error');
             });
         }
 

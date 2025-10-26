@@ -1,40 +1,114 @@
 {% extends "base.twig" %}
 
 {% block content %}
-<div class="container mx-auto px-6 py-8">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-semibold text-gray-800">Tickets</h1>
-        <button onclick="openNewTicketModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
-            Create New Ticket
-        </button>
-    </div>
-
-    <!-- Filters -->
-    <div class="mb-6 bg-white p-4 rounded-lg shadow">
-        <div class="flex flex-wrap gap-4">
-            <div class="flex-1 min-w-[200px]">
-                <label class="block text-sm font-medium text-gray-700">Search</label>
-                <input type="text" id="searchInput" placeholder="Search tickets..." 
-                       class="mt-1 block w-full px-4 py-2 text-gray-900 bg-white border rounded-md border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 sm:text-sm">
+<div class="min-h-screen flex flex-col">
+<!-- Header -->
+<header class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 sm:py-6 gap-4 sm:gap-0">
+            <div class="flex items-center w-full sm:w-auto justify-between sm:justify-start space-x-4 sm:space-x-8">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
+                    TrackiT
+                </h2>
+                <nav class="flex sm:hidden">
+                    <a href="/dashboard" class="text-gray-700 hover:text-blue-600 px-2 py-1 text-sm font-medium">
+                        Dashboard
+                    </a>
+                    <a href="/tickets" class="text-gray-700 hover:text-blue-600 px-2 py-1 text-sm font-medium">
+                        Tickets
+                    </a>
+                </nav>
             </div>
+
+            <nav class="hidden sm:flex space-x-4">
+                <a href="/dashboard" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                    Dashboard
+                </a>
+                <a href="/tickets" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                    Tickets
+                </a>
+            </nav>
+
+            <div class="flex items-center justify-between w-full sm:w-auto space-x-4">
+                <span class="text-lg sm:text-xl font-bold text-gray-700 truncate" id="headerUserName"></span>
+                <button onclick="logout()" 
+                    class="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="space-y-4 sm:space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700">Status</label>
-                <select id="statusFilter" class="mt-1 block w-full px-4 py-2 text-gray-900 bg-white border rounded-md border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 sm:text-sm">
-                    <option value="">All</option>
-                    <option value="open">Open</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="closed">Closed</option>
-                </select>
+                <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">
+                    Tickets
+                </h1>
+                <p class="mt-1 sm:mt-2 text-sm sm:text-base text-gray-600">
+                    View and manage all your support tickets
+                </p>
+            </div>
+            <button onclick="openNewTicketModal()" 
+                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Create New Ticket
+            </button>
+        </div>
+
+        <div id="ticketsList" class="text-center py-8 bg-white rounded-lg shadow-sm border border-gray-100">
+            <div class="text-sm sm:text-base text-gray-600">
+                No tickets found. Create your first ticket to get started.
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Tickets List -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-        <div class="grid gap-6 p-6" id="ticketsList">
-            <!-- Tickets will be loaded here -->
+<footer class="bg-gray-900 text-gray-300 mt-auto">
+    <div class="container mx-auto px-4 py-12 max-w-[1440px]">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">TrackiT</h3>
+                <p class="text-gray-400">
+                    Streamline your support workflow with our powerful ticket
+                    management solution.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/" class="hover:text-white transition-colors">Home</a>
+                    </li>
+                    <li>
+                        <a href="/login" class="hover:text-white transition-colors">Login</a>
+                    </li>
+                    <li>
+                        <a href="/signup" class="hover:text-white transition-colors">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li>Email: support@trackiT.com</li>
+                    <li>Phone: (555) 123-4567</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>© {{ "now"|date("Y") }} TrackiT. All rights reserved.</p>
         </div>
     </div>
+</footer>
 </div>
 
 <!-- New/Edit Ticket Modal -->
@@ -110,81 +184,133 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check authentication
     const session = localStorage.getItem('ticketapp_session');
     if (!session) {
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
         return;
     }
 
-    // Load tickets
+    // Set user name in header
+    try {
+        const data = JSON.parse(session);
+        console.log(data);
+        
+        // Handle both data structures
+        let userName;
+        if (data.data && data.data.user) {
+            // Demo user structure
+            userName = data.data.user.name;
+        } else if (data.user) {
+            // Regular user structure
+            userName = data.user.name;
+        }
+        
+        if (userName) {
+            document.getElementById('headerUserName').textContent = userName;
+        } else {
+            console.error('Could not find user name in session data');
+        }
+    } catch (err) {
+        console.error('Error parsing session:', err);
+        console.error('Session content:', session);
+    }
+
+    // Initialize tickets
     loadTickets();
 
-    // Add event listeners
-    document.getElementById('searchInput').addEventListener('input', loadTickets);
-    document.getElementById('statusFilter').addEventListener('change', loadTickets);
+    // Add modal event listeners
+    const createNewTicketBtn = document.querySelector('button[onclick="openNewTicketModal()"]');
+    if (createNewTicketBtn) {
+        createNewTicketBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const modal = document.getElementById('ticketModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+        });
+    }
 });
 
 function loadTickets() {
-    let tickets = JSON.parse(localStorage.getItem('tickets')) || [];
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const statusFilter = document.getElementById('statusFilter').value;
-
-    // Apply filters
-    tickets = tickets.filter(ticket => {
-        const matchesSearch = ticket.title.toLowerCase().includes(searchTerm) || 
-                            ticket.description.toLowerCase().includes(searchTerm);
-        const matchesStatus = !statusFilter || ticket.status === statusFilter;
-        return matchesSearch && matchesStatus;
-    });
-
-    // Sort by creation date (newest first)
-    tickets.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
+    // Get tickets from localStorage
+    let tickets = [];
+    try {
+        const ticketsData = localStorage.getItem('tickets');
+        if (ticketsData) {
+            tickets = JSON.parse(ticketsData);
+            console.log('Loaded tickets:', tickets); // Debug log
+        }
+    } catch (error) {
+        console.error('Error loading tickets:', error);
+    }
+    
     // Update UI
     const ticketsList = document.getElementById('ticketsList');
-    if (tickets.length === 0) {
-        ticketsList.innerHTML = '<p class="text-center text-gray-500">No tickets found</p>';
+    if (!tickets || tickets.length === 0) {
+        ticketsList.className = 'text-center py-8 bg-white rounded-lg shadow-sm border border-gray-100';
+        ticketsList.innerHTML = `
+            <div class="text-sm sm:text-base text-gray-600">
+                No tickets found. Create your first ticket to get started.
+            </div>`;
         return;
     }
 
+    // If we have tickets, change the container class and render tickets
+    ticketsList.className = 'grid grid-cols-1 gap-3 sm:gap-4';
     ticketsList.innerHTML = tickets.map(ticket => `
-        <div class="bg-white border rounded-lg p-6 shadow-sm">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h3 class="text-lg font-medium text-gray-900">${ticket.title}</h3>
-                    <p class="mt-1 text-sm text-gray-500">${ticket.description || 'No description'}</p>
+        <div class="bg-white shadow-sm rounded-lg p-4 sm:p-5 hover:shadow-md transition-shadow border border-gray-100">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 sm:gap-4">
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-1">
+                        ${ticket.title}
+                    </h3>
+                    <p class="text-sm text-gray-600 line-clamp-2">
+                        ${ticket.description || 'No description'}
+                    </p>
                 </div>
-                <span class="px-2 py-1 text-xs rounded-full ${getStatusClass(ticket.status)}">
-                    ${ticket.status}
-                </span>
+                <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 inline-flex text-xs leading-5 font-medium rounded-full whitespace-nowrap ${getStatusClass(ticket.status)}">
+                        ${ticket.status.replace('_', ' ')}
+                    </span>
+                </div>
             </div>
-            <div class="mt-4 flex justify-between items-center">
-                <span class="text-sm text-gray-500">
-                    Created: ${new Date(ticket.createdAt).toLocaleDateString()}
-                </span>
-                <div class="space-x-2">
+
+            <div class="mt-3 sm:mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="text-xs sm:text-sm text-gray-500 space-y-1">
+                    <p>Created: ${new Date(ticket.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    })}</p>
+                    <p>Last Updated: ${new Date(ticket.updatedAt || ticket.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    })}</p>
+                </div>
+
+                <div class="flex items-center gap-3 sm:gap-4">
                     <button onclick="editTicket(${ticket.id})" 
-                            class="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded hover:bg-blue-200">
+                            class="text-xs sm:text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">
                         Edit
                     </button>
                     <button onclick="deleteTicket(${ticket.id})" 
-                            class="px-3 py-1 text-sm bg-red-100 text-red-800 rounded hover:bg-red-200">
+                            class="text-xs sm:text-sm font-medium text-red-600 hover:text-red-800 transition-colors">
                         Delete
                     </button>
                 </div>
             </div>
-        </div>
-    `).join('');
+        </div>`).join('');
 }
 
 function getStatusClass(status) {
     switch (status) {
         case 'open':
-            return 'bg-green-100 text-green-800';
+            return 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20';
         case 'in_progress':
-            return 'bg-yellow-100 text-yellow-800';
+            return 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20';
         case 'closed':
-            return 'bg-gray-100 text-gray-800';
+            return 'bg-gray-100 text-gray-700 ring-1 ring-gray-600/20';
         default:
-            return '';
+            return 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20';
     }
 }
 
@@ -243,22 +369,65 @@ document.getElementById('ticketForm').addEventListener('submit', function(e) {
         title: formData.get('title'),
         description: formData.get('description'),
         status: formData.get('status'),
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
     };
 
-    let tickets = JSON.parse(localStorage.getItem('tickets')) || [];
+    let tickets = [];
+    try {
+        tickets = JSON.parse(localStorage.getItem('tickets')) || [];
+    } catch (error) {
+        console.error('Error loading existing tickets:', error);
+        tickets = [];
+    }
     
     if (formData.get('id')) {
         // Update existing ticket
-        tickets = tickets.map(t => t.id === ticketData.id ? {...t, ...ticketData} : t);
+        tickets = tickets.map(t => t.id === ticketData.id ? {...t, ...ticketData, updatedAt: new Date().toISOString()} : t);
     } else {
         // Add new ticket
         tickets.push(ticketData);
     }
 
-    localStorage.setItem('tickets', JSON.stringify(tickets));
-    closeTicketModal();
-    loadTickets();
+    try {
+        localStorage.setItem('tickets', JSON.stringify(tickets));
+        console.log('Saved tickets:', tickets); // Debug log
+        closeTicketModal();
+        loadTickets();
+    } catch (error) {
+        console.error('Error saving tickets:', error);
+        alert('Error saving ticket. Please try again.');
+    }
 });
+
+function logout() {
+    // Make the logout request
+    fetch('/auth/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Clear all app-related data
+            localStorage.removeItem('ticketapp_session');
+            localStorage.removeItem('tickets');
+            localStorage.removeItem('userData');
+            
+            // Redirect to login page
+            window.location.href = data.redirect;
+        }
+    })
+    .catch(error => {
+        console.error('Logout error:', error);
+        // Fallback logout
+        localStorage.removeItem('ticketapp_session');
+        localStorage.removeItem('tickets');
+        localStorage.removeItem('userData');
+        window.location.href = '/';
+    });
+}
 </script>
 {% endblock %}

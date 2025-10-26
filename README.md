@@ -82,19 +82,6 @@ The application follows accessibility best practices:
 - Focus management
 - Screen reader friendly
 
-## Known Issues
 
-- Data persistence is limited to browser localStorage
-- No server-side validation
-- No real authentication system
 
-## Security Notes
 
-This is a demo application. In a production environment, you should:
-
-- Implement proper server-side validation
-- Use secure session management
-- Store passwords securely
-- Implement CSRF protection
-- Use HTTPS
-- Implement rate limiting

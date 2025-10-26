@@ -84,7 +84,13 @@ class Auth {
     }
 
     public static function logout() {
-        // Nothing to do server-side for localStorage-based auth
-        return true;
+        session_start();
+        session_destroy();
+        
+        // Return success response that frontend will use
+        return [
+            'success' => true,
+            'redirect' => '/auth/login'
+        ];
     }
 }
