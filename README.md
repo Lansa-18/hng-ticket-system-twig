@@ -1,87 +1,131 @@
-# Ticket Management System (Twig Implementation)
+# TrackiT - Ticket Management System (Twig Version)
 
-A robust ticket management web application built using PHP and Twig templating engine.
+TrackiT is a modern, responsive ticket management system built with PHP and Twig templating engine. It provides a clean and intuitive interface for managing support tickets, with features like responsive design and a smooth user experience.
 
-## Features
+## 🛠️ Technologies and Libraries
 
-- Landing page with wavy background and decorative elements
-- User authentication (Login/Signup) with localStorage
-- Dashboard with ticket statistics
-- Full CRUD functionality for tickets
-- Responsive design with max-width 1440px
-- Consistent layout and design across all pages
+### Core Framework & Templating
 
-## Technologies Used
+- **PHP 8.x** - Server-side scripting
+- **Twig** - PHP templating engine
+- **Bramus Router** - PHP router for clean URLs
 
-- PHP 7.4+
-- Twig Template Engine
-- Tailwind CSS
-- Bramus Router
-- LocalStorage for data persistence
+### UI and Styling
 
-## Project Setup
+- **Tailwind CSS** - Utility-first CSS framework
 
-1. Clone the repository:
+### Data Handling & Storage
 
-```bash
-git clone <repository-url>
-cd ticket-system-twig
-```
+- **LocalStorage** - Client-side data persistence
+- **JSON** - Data serialization
 
-2. Install dependencies:
+## 🚀 Setup and Installation
 
-```bash
-composer install
-```
+1. **Clone the repository**
 
-3. Run the local development server:
+   ```bash
+   git clone https://github.com/Lansa-18/ticket-system-twig.git
+   cd ticket-system-twig
+   ```
 
-```bash
-php -S localhost:8000 -t public
-```
+2. **Install dependencies**
 
-4. Visit http://localhost:8000 in your browser
+   ```bash
+   composer install
+   ```
 
-## Project Structure
+3. **Run the development server**
+
+   ```bash
+   php -S localhost:8000 -t public
+   ```
+
+## 🏗️ Project Structure
 
 ```
 ticket-system-twig/
-├── public/
-│   └── index.php         # Entry point
-├── src/
-│   └── ...              # PHP classes
-├── templates/
-│   ├── base.twig        # Base template
-│   ├── landing.twig     # Landing page
-│   ├── dashboard.twig   # Dashboard
-│   ├── auth/
-│   │   ├── login.twig   # Login page
-│   │   └── signup.twig  # Signup page
-│   └── tickets/
-│       └── index.twig   # Ticket management
-└── vendor/              # Dependencies
+├── public/              # Public directory serving static files
+├── templates/           # Twig template files
+│   ├── auth/           # Authentication templates
+│   ├── dashboard/      # Dashboard templates
+│   └── tickets/        # Ticket management templates
+├── vendor/             # Composer dependencies
+└── composer.json       # Project dependencies
 ```
 
-## Test User Credentials
+## 🎯 Features and Components
 
-You can use these credentials to test the application:
+### Authentication
 
-```
-Email: test@example.com
-Password: password
-```
+- **Login/Signup Forms**: Secure client-side authentication with form validation
+- **Protected Routes**: Client-side route protection
+- **Persistent Sessions**: Local storage based session management
 
-## Accessibility
+### Dashboard
 
-The application follows accessibility best practices:
+- **Overview Stats**: Quick view of ticket statistics
+- **Ticket Management**: CRUD operations for tickets
+- **Status Tracking**: Visual status indicators (Open, In Progress, Closed)
+- **Responsive Layout**: Mobile-first design approach
+
+### Components Structure
+
+- **Base Layout**: Base template with common elements
+- **Auth Templates**: Login and signup forms
+- **Ticket Templates**: Ticket listing and management
+- **Dashboard Template**: Main dashboard view
+
+## 🔐 Authentication and State
+
+### Client-side Authentication
+
+- Manages user authentication state in localStorage
+- Provides login, signup, and logout functionality
+- Session persistence using localStorage
+
+### Ticket State Management
+
+- Local storage-based ticket data persistence
+- Real-time updates using JavaScript
+- Optimistic UI updates for better UX
+
+## ♿ Accessibility Features
 
 - Semantic HTML structure
-- ARIA labels where necessary
-- Sufficient color contrast
+- ARIA labels for interactive elements
 - Keyboard navigation support
-- Focus management
-- Screen reader friendly
+- Color contrast compliance
+- Focus management in modals
+- Screen reader friendly status messages
 
+## 🧪 Test User Credentials
 
+```
+Email: demo@example.com
+Password: password123
+```
 
+Note: Demo user gets pre-populated with sample tickets for testing.
 
+## 💻 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## 📝 Development Notes
+
+- Uses Twig for templating
+- Client-side state management with localStorage
+- Responsive design with Tailwind CSS
+- Form validation using native JavaScript
+- Modal dialogs for ticket operations
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+Built with PHP, Twig, and TailwindCSS
