@@ -14,14 +14,8 @@
       "App\\": "src/"
     }
   },
-  "scripts": {
-    "post-install-cmd": [
-      "npm install",
-      "npm run build"
-    ]
-  },
+  "scripts": {},
   "engines": {
-    "php": "^8.2",
-    "node": ">=14"
+    "php": "^8.2"
   }
 }
