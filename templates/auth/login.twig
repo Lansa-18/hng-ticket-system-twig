@@ -195,6 +195,41 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     .then(data => {
         if (data.success) {
             localStorage.setItem('ticketapp_session', JSON.stringify(data));
+            
+            // Initialize mock data for demo user
+            if (data.data && data.data.user && data.data.user.email === 'demo@example.com') {
+                const existingTickets = localStorage.getItem('tickets');
+                if (!existingTickets) {
+                    const mockTickets = [
+                        {
+                            id: Date.now() - 5000,
+                            title: "Website Loading Issue",
+                            description: "Users reporting slow loading times on the homepage. Need to investigate server performance and optimize database queries.",
+                            status: "open",
+                            createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+                            updatedAt: new Date(Date.now() - 43200000).toISOString() // 12 hours ago
+                        },
+                        {
+                            id: Date.now() - 4000,
+                            title: "Login Authentication Error",
+                            description: "Some users unable to log in with correct credentials. Error appears to be intermittent. Security audit recommended.",
+                            status: "in-progress",
+                            createdAt: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+                            updatedAt: new Date(Date.now() - 14400000).toISOString() // 4 hours ago
+                        },
+                        {
+                            id: Date.now() - 3000,
+                            title: "Mobile App Crash",
+                            description: "App crashes when accessing profile settings on Android devices. iOS version working fine. Debug logs needed.",
+                            status: "closed",
+                            createdAt: new Date(Date.now() - 259200000).toISOString(), // 3 days ago
+                            updatedAt: new Date(Date.now() - 3600000).toISOString() // 1 hour ago
+                        }
+                    ];
+                    localStorage.setItem('tickets', JSON.stringify(mockTickets));
+                }
+            }
+            
             showToast('Login successful! Redirecting...');
             setTimeout(() => {
                 window.location.href = '/dashboard';

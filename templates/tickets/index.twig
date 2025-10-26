@@ -112,38 +112,56 @@
 </div>
 
 <!-- New/Edit Ticket Modal -->
-<div id="ticketModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+<div id="ticketModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden flex items-center justify-center">
+    <div class="relative mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
         <div class="mt-3">
             <h3 class="text-lg font-medium text-gray-900 mb-4" id="modalTitle">Create New Ticket</h3>
             <form id="ticketForm" class="space-y-4">
                 <input type="hidden" name="id" id="ticketId">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Title</label>
-                    <input type="text" name="title" required 
-                           class="mt-1 block w-full px-4 py-2 text-gray-900 bg-white border rounded-md border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 sm:text-sm">
+                <div class="space-y-2">
+                    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                    <input type="text" 
+                           name="title" 
+                           id="title"
+                           minlength="3"
+                           maxlength="100"
+                           required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    <p class="text-sm text-red-600 hidden" id="titleError"></p>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea name="description" rows="3" 
-                              class="mt-1 block w-full px-4 py-2 text-gray-900 bg-white border rounded-md border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 sm:text-sm"></textarea>
+                <div class="space-y-2">
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea name="description" 
+                             id="description" 
+                             rows="4"
+                             minlength="10"
+                             maxlength="1000"
+                             required
+                             class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"></textarea>
+                    <p class="text-sm text-red-600 hidden" id="descriptionError"></p>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Status</label>
-                    <select name="status" required 
-                            class="mt-1 block w-full px-4 py-2 text-gray-900 bg-white border rounded-md border-gray-300 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 sm:text-sm">
+                <div class="space-y-2">
+                    <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                    <select name="status" 
+                            id="status"
+                            required 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                         <option value="open">Open</option>
-                        <option value="in_progress">In Progress</option>
+                        <option value="in-progress">In Progress</option>
                         <option value="closed">Closed</option>
                     </select>
+                    <p class="text-sm text-red-600 hidden" id="statusError"></p>
                 </div>
-                <div class="flex justify-end space-x-3">
-                    <button type="button" onclick="closeTicketModal()" 
-                            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" 
+                            onclick="closeTicketModal()" 
+                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                         Cancel
                     </button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-                        Save
+                    <button type="submit" 
+                            id="submitButton"
+                            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Create Ticket
                     </button>
                 </div>
             </form>
@@ -152,8 +170,8 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden flex items-center justify-center">
+    <div class="relative mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
         <div class="mt-3 text-center">
             <h3 class="text-lg font-medium text-gray-900">Delete Ticket</h3>
             <div class="mt-2 px-7 py-3">
@@ -335,6 +353,7 @@ function editTicket(id) {
     document.getElementById('ticketForm').elements.title.value = ticket.title;
     document.getElementById('ticketForm').elements.description.value = ticket.description || '';
     document.getElementById('ticketForm').elements.status.value = ticket.status;
+    document.getElementById('submitButton').textContent = 'Update Ticket';
     
     document.getElementById('ticketModal').classList.remove('hidden');
 }
@@ -360,8 +379,62 @@ function confirmDelete() {
     loadTickets();
 }
 
+// Form validation
+function validateTicketForm() {
+    const title = document.getElementById('title');
+    const description = document.getElementById('description');
+    const status = document.getElementById('status');
+    let isValid = true;
+
+    // Reset errors
+    document.querySelectorAll('.text-red-600').forEach(el => {
+        el.classList.add('hidden');
+        el.textContent = '';
+    });
+
+    // Validate title
+    if (title.value.length < 3) {
+        document.getElementById('titleError').textContent = 'Title must be at least 3 characters';
+        document.getElementById('titleError').classList.remove('hidden');
+        isValid = false;
+    } else if (title.value.length > 100) {
+        document.getElementById('titleError').textContent = 'Title cannot exceed 100 characters';
+        document.getElementById('titleError').classList.remove('hidden');
+        isValid = false;
+    }
+
+    // Validate description
+    if (description.value.length < 10) {
+        document.getElementById('descriptionError').textContent = 'Description must be at least 10 characters';
+        document.getElementById('descriptionError').classList.remove('hidden');
+        isValid = false;
+    } else if (description.value.length > 1000) {
+        document.getElementById('descriptionError').textContent = 'Description cannot exceed 1000 characters';
+        document.getElementById('descriptionError').classList.remove('hidden');
+        isValid = false;
+    }
+
+    // Validate status
+    const validStatuses = ['open', 'in-progress', 'closed'];
+    if (!validStatuses.includes(status.value)) {
+        document.getElementById('statusError').textContent = 'Please select a valid status';
+        document.getElementById('statusError').classList.remove('hidden');
+        isValid = false;
+    }
+
+    return isValid;
+}
+
 document.getElementById('ticketForm').addEventListener('submit', function(e) {
     e.preventDefault();
+    
+    if (!validateTicketForm()) {
+        return;
+    }
+
+    const submitButton = document.getElementById('submitButton');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Saving...';
     
     const formData = new FormData(e.target);
     const ticketData = {
