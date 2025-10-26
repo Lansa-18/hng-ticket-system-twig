@@ -14,9 +14,8 @@ ini_set('display_errors', 1);
 // Initialize Twig
 $loader = new FilesystemLoader(__DIR__ . '/../templates');
 $twig = new Environment($loader, [
-    'cache' => __DIR__ . '/../cache',
-    'auto_reload' => true,
-    'debug' => true
+    'cache' => false, // Disable cache in production
+    'debug' => false  // Disable debug in production
 ]);
 
 // Initialize Router

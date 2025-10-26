@@ -9,7 +9,6 @@
     "ext-json": "*"
   },
   "require-dev": {
-    "heroku/heroku-buildpack-php": "^233.0.0"
   },
   "autoload": {
     "psr-4": {
