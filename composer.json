@@ -3,13 +3,11 @@
   "description": "Ticket Management System using Twig",
   "type": "project",
   "require": {
-    "php": ">=7.4",
+    "php": "^8.2",
     "twig/twig": "^3.0",
     "bramus/router": "^1.6",
-    "ext-json": "*"
-  },
-  "require-dev": {
-    "heroku/heroku-buildpack-php": "^233.0.0"
+    "ext-json": "*",
+    "apache2-utils": "*"
   },
   "autoload": {
     "psr-4": {
@@ -23,7 +21,7 @@
     ]
   },
   "engines": {
-    "php": ">=7.4",
+    "php": "^8.2",
     "node": ">=14"
   }
 }
