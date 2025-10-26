@@ -236,7 +236,7 @@ function loadTickets() {
         const ticketsData = localStorage.getItem('tickets');
         if (ticketsData) {
             tickets = JSON.parse(ticketsData);
-            console.log('Loaded tickets:', tickets); // Debug log
+            console.log('Loaded tickets:', tickets);
         }
     } catch (error) {
         console.error('Error loading tickets:', error);

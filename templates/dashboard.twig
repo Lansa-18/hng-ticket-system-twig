@@ -263,19 +263,29 @@ function loadTickets() {
                 
         recentActivity.innerHTML = `
             <p class="text-gray-600 text-center py-4">${message}</p>
-            ${tickets.slice(0, 5).map(ticket => `
-                <div class="border-t border-gray-200 py-4 first:border-t-0">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-900">${ticket.title}</h3>
-                            <p class="text-sm text-gray-500 mt-1">${ticket.description || 'No description'}</p>
+            <div class="space-y-3">
+                ${tickets.slice(0, 5).map(ticket => `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-900">
+                                ${ticket.title}
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-1">
+                                ${ticket.description || 'No description'}
+                            </p>
                         </div>
-                        <span class="px-2.5 py-1 text-xs font-medium rounded-full ${getStatusClass(ticket.status)}">
-                            ${ticket.status.replace('_', ' ')}
-                        </span>
+                        <div class="px-3 py-1 text-sm font-medium rounded-full ${
+                            ticket.status === "open"
+                                ? "bg-green-100 text-green-800"
+                                : ticket.status === "in-progress" || ticket.status === "in_progress"
+                                    ? "bg-yellow-100 text-yellow-800"
+                                    : "bg-gray-100 text-gray-800"
+                        }">
+                            ${ticket.status.replace('_', '-')}
+                        </div>
                     </div>
-                </div>
-            `).join('')}
+                `).join('')}
+            </div>
         `;
     } else {
         recentActivity.innerHTML = '<p class="text-gray-500 text-center py-4">No tickets yet. Create your first ticket to get started!</p>';
