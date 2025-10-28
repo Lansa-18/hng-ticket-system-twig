@@ -11,7 +11,6 @@ class Auth {
     ];
 
     public static function login($email, $password) {
-        // Find user
         $user = null;
         foreach (self::$MOCK_USERS as $mockUser) {
             if ($mockUser['email'] === $email) {
@@ -24,12 +23,10 @@ class Auth {
             throw new Exception('Invalid credentials');
         }
 
-        // Validate password
         if ($user['password'] !== $password) {
             throw new Exception('Invalid credentials');
         }
 
-        // Create session with public user data (excluding password)
         $session = [
             'user' => [
                 'id' => $user['id'],
@@ -43,19 +40,16 @@ class Auth {
     }
 
     public static function signup($name, $email, $password) {
-        // Validate password
         if (strlen($password) < 8) {
             throw new Exception('Password must be at least 8 characters');
         }
 
-        // Check if user exists
         foreach (self::$MOCK_USERS as $user) {
             if ($user['email'] === $email) {
                 throw new Exception('User already exists');
             }
         }
 
-        // Create new user
         $newUser = [
             'id' => (count(self::$MOCK_USERS) + 1) . '',
             'name' => $name,
@@ -63,10 +57,8 @@ class Auth {
             'password' => $password
         ];
 
-        // Add to mock database (memory only)
         self::$MOCK_USERS[] = $newUser;
 
-        // Create session
         $session = [
             'user' => [
                 'id' => $newUser['id'],
@@ -87,7 +79,6 @@ class Auth {
         session_start();
         session_destroy();
         
-        // Return success response that frontend will use
         return [
             'success' => true,
             'redirect' => '/auth/login'

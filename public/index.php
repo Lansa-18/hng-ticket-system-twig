@@ -14,8 +14,8 @@ ini_set('display_errors', 1);
 // Initialize Twig
 $loader = new FilesystemLoader(__DIR__ . '/../templates');
 $twig = new Environment($loader, [
-    'cache' => false, // Disable cache in production
-    'debug' => false  // Disable debug in production
+    'cache' => false, 
+    'debug' => false 
 ]);
 
 // Initialize Router
@@ -23,9 +23,7 @@ $router = new Router();
 
 require_once __DIR__ . '/../src/Auth.php';
 
-// No server-side auth check - we're using client-side localStorage check
 $router->before('GET|POST', '/dashboard.*', function() {
-    // Allow all requests to dashboard, client-side JS will handle auth
     return;
 });
 
@@ -40,7 +38,6 @@ $router->get('/auth/login', function() use ($twig) {
 });
 
 $router->post('/auth/login', function() use ($twig) {
-    // Get JSON data from request body
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 
@@ -73,7 +70,6 @@ $router->get('/auth/signup', function() use ($twig) {
 });
 
 $router->post('/auth/signup', function() use ($twig) {
-    // Get JSON data from request body
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
 

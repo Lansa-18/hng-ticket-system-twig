@@ -456,10 +456,8 @@ document.getElementById('ticketForm').addEventListener('submit', function(e) {
     }
     
     if (formData.get('id')) {
-        // Update existing ticket
         tickets = tickets.map(t => t.id === ticketData.id ? {...t, ...ticketData, updatedAt: new Date().toISOString()} : t);
     } else {
-        // Add new ticket
         tickets.push(ticketData);
     }
 
@@ -475,7 +473,6 @@ document.getElementById('ticketForm').addEventListener('submit', function(e) {
 });
 
 function logout() {
-    // Make the logout request
     fetch('/auth/logout', {
         method: 'POST',
         headers: {
@@ -488,18 +485,15 @@ function logout() {
             // Clear all app-related data
             localStorage.removeItem('ticketapp_session');
             localStorage.removeItem('tickets');
-            localStorage.removeItem('userData');
             
-            // Redirect to login page
             window.location.href = data.redirect;
         }
     })
     .catch(error => {
         console.error('Logout error:', error);
-        // Fallback logout
+
         localStorage.removeItem('ticketapp_session');
         localStorage.removeItem('tickets');
-        localStorage.removeItem('userData');
         window.location.href = '/';
     });
 }
